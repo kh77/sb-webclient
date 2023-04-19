@@ -1,5 +1,7 @@
 package com.sm.client;
 
+import com.sm.client.log.LogResponseFilter;
+import com.sm.client.log.LogReqBodyClientHttpConnectorDecorator;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -29,10 +31,11 @@ public class InvoiceWebClientConfig {
         SslContext sslContext = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
 
         HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(sslContext));
-        return WebClient.builder().baseUrl(baseUrl).filter(logRequest())
-                .filter(logResponse())
-                .defaultHeader("x-request-id", UUID.randomUUID().toString())
-                .clientConnector(new ReactorClientHttpConnector(httpClient)).build();
+        ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
+        return WebClient.builder().baseUrl(baseUrl)
+                //.filter(logRequest())
+                //.filter(logResponse())
+                .filter(new LogResponseFilter()).defaultHeader("x-request-id", UUID.randomUUID().toString()).clientConnector(new LogReqBodyClientHttpConnectorDecorator(connector)).build();
     }
 
     private ExchangeFilterFunction logRequest() {

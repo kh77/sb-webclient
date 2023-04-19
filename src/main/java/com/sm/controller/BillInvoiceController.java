@@ -40,7 +40,7 @@ public class BillInvoiceController {
         return billInvoiceService.createInvoiceAsync(request);
     }
 
-    @GetMapping("/asyc/{id}")
+    @GetMapping("/async/{id}")
     public Mono<InvoiceResponse> asycFindById(@PathVariable Long id) {
         return billInvoiceService.readInvoiceAsync(id);
     }

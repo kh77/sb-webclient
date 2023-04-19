@@ -3,7 +3,10 @@
 ### **WebClient**
 - Block & Non Blocking Calls 
 - Using WireMock for Stub port(9090): when WebClient will call the service
-  - Flow of Service
+- SSL disable configuration
+- Log Request & Response Body
+ 
+**Flow of Api**
   
        Controller ---- WebClient ---- WireMock 
 
@@ -19,12 +22,17 @@
 - Get Invoice by ID:
 
 
+
     curl -X GET http://localhost:8080/bill/{id}
+
+
 
 
 - Create Invoice:
   
+
       curl -X POST http://localhost:8080/bill -H "Content-Type: application/json" -d '{"amount":"100.00"}'
+
 
 
 - Update Invoice by ID:
